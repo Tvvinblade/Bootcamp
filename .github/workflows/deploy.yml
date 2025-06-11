@@ -44,6 +44,13 @@ jobs:
           
           echo "JIRA_PASS=${{ secrets.JIRA_PASS }}" >> .env
 
+      - name: Проверка структуры
+        run: |
+          echo "Текущая директория: $(pwd)"
+          ls -la
+          ls -la dags
+          ls -la plugins
+          ls -la scripts
 
       # Копируем только dags, plugins и scripts на сервер
       - name: Copy DAGs, plugins, and scripts to server
@@ -53,7 +60,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: |
-            dags/
-            plugins/
-            scripts/
+            dags
+            plugins
+            scripts
           target: "/home/server/bootcamp"
