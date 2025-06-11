@@ -59,8 +59,5 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          source: |
-            dags
-            plugins
-            scripts
+          source: dags plugins scripts
           target: /home/server/bootcamp
