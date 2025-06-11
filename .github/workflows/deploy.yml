@@ -60,7 +60,7 @@ jobs:
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: |
-            dags
-            plugins
-            scripts
+            bootcamp_1/dags
+            bootcamp_1/plugins
+            bootcamp_1/scripts
           target: "/home/server/bootcamp"
