@@ -63,4 +63,4 @@ jobs:
             dags
             plugins
             scripts
-          target: /home/USERNAME/bootcamp
+          target: /home/server/bootcamp
