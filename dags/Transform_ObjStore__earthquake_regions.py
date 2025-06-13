@@ -21,10 +21,10 @@ dag = DAG(
 )
 
 
-wait_for_kafka_dag = ExternalTaskSensor(
-    task_id='wait_for_kafka_loader',
-    external_dag_id='Load_Kafka__order_events',
-    external_task_id=None,  # ждём завершения всего DAG
+wait_for_region_dag = ExternalTaskSensor(
+    task_id='wait_for_region_loader',
+    external_dag_id='Load_JDBC__regions',
+    external_task_id=None,
     allowed_states=['success'],
     failed_states=['failed'],
     mode='poke',
@@ -66,4 +66,4 @@ s3_to_ch = SparkSubmitOperator(
     dag=dag
 )
 
-wait_for_kafka_dag >> s3_to_ch
+wait_for_region_dag >> s3_to_ch
