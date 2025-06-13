@@ -1,6 +1,7 @@
 import os
 from airflow import DAG
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
+from airflow.sensors.external_task import ExternalTaskSensor
 from airflow.utils.dates import days_ago
 
 
@@ -17,6 +18,19 @@ dag = DAG(
     description="Spark Submit Inc",
     catchup=False,
     tags=['spark', 'transform']
+)
+
+
+wait_for_kafka_dag = ExternalTaskSensor(
+    task_id='wait_for_kafka_loader',
+    external_dag_id='Load_Kafka__order_events',
+    external_task_id=None,  # ждёт завершения всего DAG-а
+    allowed_states=['success'],
+    failed_states=['failed', 'skipped'],
+    mode='poke',  # или 'reschedule' — зависит от предпочтений по ресурсам
+    timeout=60 * 60 * 12,
+    poke_interval=60,
+    dag=dag
 )
 
 
@@ -52,4 +66,4 @@ s3_to_ch = SparkSubmitOperator(
     dag=dag
 )
 
-s3_to_ch
+wait_for_kafka_dag >> s3_to_ch
