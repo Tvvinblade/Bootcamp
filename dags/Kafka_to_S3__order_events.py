@@ -11,7 +11,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="Load_Kafka__order_events",
+    dag_id="Kafka_to_S3__order_events",
     default_args=default_args,
     schedule_interval='@once',
     description="Spark Submit",

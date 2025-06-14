@@ -12,7 +12,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="Create_Postgres__app_installs",
+    dag_id="Create_Table_PG__app_installs",
     default_args=default_args,
     schedule_interval="* * * * *",
     description="Симуляция установок приложения",

@@ -46,7 +46,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='Load_API__weather',
+    dag_id='API_to_S3__weather',
     default_args=default_args,
     schedule_interval='*/5 * * * *',
     catchup=False,

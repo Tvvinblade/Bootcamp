@@ -12,7 +12,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="Transform_ObjStore__earthquake_regions",
+    dag_id="S3_to_CH__earthquake_regions.py",
     default_args=default_args,
     schedule_interval="00 10 * * *",
     description="Spark Submit Inc",

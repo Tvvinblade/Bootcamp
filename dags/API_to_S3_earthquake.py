@@ -20,7 +20,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id='Load_API__earthquake',
+    dag_id='API_to_S3_earthquake',
     default_args=default_args,
     schedule_interval='@daily',
     catchup=True,

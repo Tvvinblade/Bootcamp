@@ -13,7 +13,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="Create_Postgres__order_events",
+    dag_id="Create_Table_PG__order_events",
     default_args=default_args,
     schedule_interval="* * * * *",
     description="Симуляция статусов заказов",
