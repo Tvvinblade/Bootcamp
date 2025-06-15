@@ -27,3 +27,18 @@ https://bootcamp-page.ru.tuna.am
 - **Docker** - контейнеризация всех компонентов
 - **MinIO** - S3-совместимое хранилище объектов
 - **PostgreSQL** - метаданные Airflow
+
+***
+## Задания
+- Перейди по ссылке
+- Скопируй jupyter notebook к себе в Google Colab
+- Реши и добавь свою ссылку в README.md
+### Python #1
+
+[Задачи по Python 1](https://colab.research.google.com/drive/1GyIkkkUSzA08n6Sx7kmXaZgk_K3JNnVc?usp=sharing)
+
+### Python #2
+
+[Задачи по Python 2]()
+
+
