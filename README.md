@@ -29,10 +29,11 @@ https://bootcamp-page.ru.tuna.am
 - **PostgreSQL** - метаданные Airflow
 
 ***
-## Задания
+
+# Начинай учиться отсюда
 - Перейди по ссылке
 - Скопируй jupyter notebook к себе в Google Colab
-- Реши и добавь свою ссылку в README.md
+- Реши и **добавь ссылку** на твой Google Colab [сюда](tasks/python/README.md)
 ### Python #1
 
 [Задачи по Python 1](https://colab.research.google.com/drive/1GyIkkkUSzA08n6Sx7kmXaZgk_K3JNnVc?usp=sharing)
