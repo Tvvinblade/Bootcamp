@@ -39,6 +39,6 @@ https://bootcamp-page.ru.tuna.am
 
 ### Python #2
 
-[Задачи по Python 2]()
+[Задачи по Python 2](https://colab.research.google.com/drive/16Gr41DKntU2eMNYEDJivhg6uQzVkuV8U?usp=sharing)
 
 
