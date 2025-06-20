@@ -23,7 +23,7 @@ dag = DAG(
 
 wait_for_region_dag = ExternalTaskSensor(
     task_id='wait_for_region_loader',
-    external_dag_id='Load_JDBC__regions',
+    external_dag_id='PG_to_S3__regions',
     external_task_id=None,
     allowed_states=['success'],
     failed_states=['failed'],
