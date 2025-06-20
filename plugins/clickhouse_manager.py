@@ -6,13 +6,30 @@ logger = logging.getLogger("airflow.task")
 
 
 class ClickHouseManager:
-    def __init__(self, spark, jdbc_url: str, user: str, password: str, database: str = "default"):
+    def __init__(self, spark, jdbc_url: str, user: str, password: str, database: str = "default",
+                 http_host: str = "http://ru.tuna.am:31086"):
         self.spark = spark
         self.jdbc_url = jdbc_url
         self.user = user
         self.password = password
         self.database = database
+        self.http_host = http_host
         self.driver = "com.clickhouse.jdbc.ClickHouseDriver"
+
+    def execute_sql(self, query: str):
+        """Выполняет SQL через HTTP-интерфейс ClickHouse"""
+        try:
+            response = requests.post(
+                f"{self.http_host}/",
+                data=query.encode('utf-8'),
+                auth=(self.user, self.password),
+                headers={"Content-Type": "text/plain"}
+            )
+            if response.status_code != 200:
+                raise Exception(f"ClickHouse error: {response.text}")
+            print("✅ SQL выполнен успешно")
+        except Exception as e:
+            print(f"❌ Ошибка выполнения SQL: {e}")
 
     def table_exists(self, table_name: str) -> bool:
         """Проверяет существование таблицы в ClickHouse"""
