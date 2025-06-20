@@ -34,7 +34,7 @@ def generate_app_installs(**kwargs):
     kwargs['ti'].xcom_push(key='installs', value=installs)
 
 def insert_app_installs_func(**kwargs):
-    hook = PostgresHook(postgres_conn_id="backend_db")
+    hook = PostgresHook(postgres_conn_id="source_db")
     installs = kwargs['ti'].xcom_pull(key='installs', task_ids='generate_app_installs')
     for i in installs:
         hook.run(f"""

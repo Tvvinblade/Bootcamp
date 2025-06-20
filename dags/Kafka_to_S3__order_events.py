@@ -25,7 +25,7 @@ stream_kafka_to_s3 = SparkSubmitOperator(
     application='/opt/airflow/scripts/load/load__order_events.py',  # путь до spark-скрипта
     conn_id='spark_default',
     env_vars={
-        'KAFKA_TOPIC': 'backend.public.order_events',
+        'KAFKA_TOPIC': 'source.public.order_events',
         'KAFKA_BOOTSTRAP': 'kafka:29093',
         'S3_PATH': f's3a://{os.getenv("MINIO_PROD_BUCKET_NAME")}/stream/order_events/',
         'PYTHONPATH': '/opt/airflow/plugins:/opt/airflow/scripts'

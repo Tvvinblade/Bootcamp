@@ -36,7 +36,7 @@ def generate_order_events(**kwargs):
 
 
 def insert_order_events_func(**kwargs):
-    hook = PostgresHook(postgres_conn_id="backend_db")
+    hook = PostgresHook(postgres_conn_id="source_db")
     events = kwargs['ti'].xcom_pull(key='events', task_ids='generate_order_events')
     for e in events:
         hook.run(f"""
@@ -46,7 +46,7 @@ def insert_order_events_func(**kwargs):
 
 
 def update_order_events_func(**kwargs):
-    hook = PostgresHook(postgres_conn_id="backend_db")
+    hook = PostgresHook(postgres_conn_id="source_db")
 
     # Удалим одну строку (крайнюю по времени)
     hook.run("""
