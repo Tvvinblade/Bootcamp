@@ -1,7 +1,9 @@
 import os
 from airflow import DAG
 from airflow.providers.apache.spark.operators.spark_submit import SparkSubmitOperator
-from airflow.sensors.external_task import ExternalTaskSensor
+from airflow.sensors.python import PythonSensor
+from airflow.utils.db import provide_session
+from airflow.models import DagRun
 from airflow.utils.dates import days_ago
 
 
@@ -21,15 +23,20 @@ dag = DAG(
 )
 
 
-wait_for_region_dag = ExternalTaskSensor(
-    task_id='wait_for_region_loader',
-    external_dag_id='PG_to_S3__regions',
-    external_task_id=None,
-    allowed_states=['success'],
-    failed_states=['failed'],
-    mode='poke',
-    timeout=60 * 60 * 12,
+@provide_session
+def check_pg_to_s3_done(session=None, **kwargs):
+    dag_runs = session.query(DagRun).filter(
+        DagRun.dag_id == 'PG_to_S3__regions',
+        DagRun.state == 'success'
+    ).all()
+    return len(dag_runs) > 0
+
+wait_for_region_dag = PythonSensor(
+    task_id='wait_for_region_loader_any_success',
+    python_callable=check_pg_to_s3_done,
     poke_interval=60,
+    timeout=60 * 60 * 12,
+    mode='poke',
     dag=dag
 )
 
