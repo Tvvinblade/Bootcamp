@@ -11,6 +11,7 @@ db_password = os.getenv('CLICKHOUSE_PASSWORD')
 table_name = os.getenv('TABLE_NAME')
 s3_path_regions = os.getenv('S3_PATH_REGIONS')
 s3_path_earthquake = os.getenv('S3_PATH_EARTHQUAKE')
+distributed_table_name = f"distributed_{table_name}"
 
 
 # Инициализация Spark
@@ -30,13 +31,49 @@ s3_manager = S3FileManager(
 
 # Инициализация ClickHouseManager
 ch_manager = ClickHouseManager(
-    spark=spark,
-    jdbc_url=jdbc_url,
+    host='ru.tuna.am',
     user=db_user,
     password=db_password,
     database="default"
 )
 
+print("TEST")
+
+cluster_name = "company_cluster"
+
+create_main = f"""
+    CREATE TABLE IF NOT EXISTS default.{table_name} ON CLUSTER {cluster_name} (
+        id String,
+        ts DateTime,
+        place String,
+        region String,
+        magnitude Float64,
+        felt Nullable(Int32),
+        tsunami Nullable(Int32),
+        url String,
+        longitude Float64,
+        latitude Float64,
+        depth Float64,
+        load_date Date,
+        updated_at DateTime
+    )
+    ENGINE = ReplacingMergeTree(updated_at)
+    PARTITION BY toYYYYMM(load_date)
+    ORDER BY (load_date, id)
+    """
+
+create_distributed = f"""
+    CREATE TABLE IF NOT EXISTS default.{distributed_table_name}
+    ENGINE = Distributed('{cluster_name}', 'default', '{table_name}', rand())
+    """
+
+print(create_main)
+print(create_distributed)
+
+ch_manager.execute_sql(create_main)
+ch_manager.execute_sql(create_distributed)
+
+print("Таблицы созданы")
 
 # Получение максимальной даты обновления
 max_updated = ch_manager.get_max_updated_at(table_name)
@@ -107,11 +144,7 @@ enriched.write \
     .option("password", db_password) \
     .option("dbtable", table_name) \
     .option("driver", "com.clickhouse.jdbc.ClickHouseDriver") \
-    .option("createTableOptions", """
-            ENGINE = ReplacingMergeTree(updated_at)
-            PARTITION BY toYYYYMM(load_date)
-            ORDER BY (load_date, id)
-        """) \
+    .option("dbtable", distributed_table_name) \
     .mode("append") \
     .save()
 
