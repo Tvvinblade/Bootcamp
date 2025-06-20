@@ -46,7 +46,7 @@ s3_to_ch = SparkSubmitOperator(
     application='/opt/airflow/scripts/transform/transform__earthquake_regions.py',
     conn_id='spark_default',
     env_vars={
-        'CLICKHOUSE_JDBC_URL': 'jdbc:clickhouse://clickhouse:8123/default',
+        'CLICKHOUSE_JDBC_URL': 'jdbc:clickhouse://ru.tuna.am:31086/default',
         'CLICKHOUSE_USER': os.getenv('CLICKHOUSE_USER'),
         'CLICKHOUSE_PASSWORD': os.getenv('CLICKHOUSE_PASSWORD'),
         'TABLE_NAME': 'enriched_earthquakes',
