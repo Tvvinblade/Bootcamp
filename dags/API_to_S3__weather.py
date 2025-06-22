@@ -9,7 +9,7 @@ from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 
 
 def fetch_weather_and_upload_s3hook():
-    # Получаем данные из API Open-Meteo
+    # Получаем данные из API Open-Meteo!
     """
         API Docs: https://open-meteo.com/en/docs
     """
