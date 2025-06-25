@@ -1,0 +1,21 @@
+from datetime import datetime
+from airflow import DAG
+from airflow.operators.python import PythonOperator
+
+def hello_world():
+    print("Тест тест тест")
+
+dag = DAG(
+    'For the DE',
+    description='Пацаны ваще ребята',
+    schedule_interval='@once',
+    start_date=datetime(2025, 6, 10),
+    catchup=False
+)
+
+hello_task = PythonOperator(
+    task_id='hello_task',
+    python_callable=hello_world,
+    dag=dag
+)
+
